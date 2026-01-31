@@ -78,7 +78,7 @@ fun HalamanKategori(
                             onDismissRequest = { expanded = false }
                         ) {
                             DropdownMenuItem(
-                                text = { Text("None (Root)") },
+                                text = { Text("Tanpa Kategori (root)") },
                                 onClick = { 
                                     selectedParentId = null
                                     expanded = false 
@@ -113,13 +113,11 @@ fun HalamanKategori(
             
             Divider()
             Spacer(modifier = Modifier.height(8.dp))
-            Text("List Kategori (Flat/Hierarchical View)", style = MaterialTheme.typography.titleSmall)
+            Text("List Kategori", style = MaterialTheme.typography.titleSmall)
 
             LazyColumn {
                 items(listKategori) { kategori ->
-                    // Determine depth simply by checking parents (inefficient for deep trees in UI loop but ok for basic)
-                    // Better: ViewModel should expose a tree or depth-annotated list.
-                    // For now, flat listing with Parent ID info.
+
                     KategoriItem(
                         kategori = kategori, 
                         parentName = listKategori.find { it.idKategori == kategori.parentId }?.namaKategori,
