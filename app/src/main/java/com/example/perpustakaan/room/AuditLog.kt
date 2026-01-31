@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 data class AuditLog(
     @PrimaryKey(autoGenerate = true)
     val idLog: Int = 0,
-    val entityName: String, // Changed from 'entity' to 'entityName' to avoid keyword confusion
+    val entityName: String,
     val beforeData: String,
     val afterData: String,
     val timestamp: Long = System.currentTimeMillis()

@@ -67,7 +67,7 @@ fun HalamanHome(
                     contentPadding = PaddingValues(16.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    items(listBuku) { buku ->
+                    items(listBuku, key = { it.idBuku }) { buku ->
                         BukuItem(buku = buku, onClick = { onBukuClick(buku.idBuku) })
                     }
                 }

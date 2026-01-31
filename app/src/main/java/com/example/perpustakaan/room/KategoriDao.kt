@@ -17,7 +17,7 @@ interface KategoriDao {
     @Query("SELECT * FROM kategori WHERE isDeleted = 0 ORDER BY namaKategori ASC")
     fun getAllKategori(): Flow<List<Kategori>>
     
-    // For recursive lookup or validation
+
     @Query("SELECT * FROM kategori WHERE isDeleted = 0")
     suspend fun getAllKategoriList(): List<Kategori>
 

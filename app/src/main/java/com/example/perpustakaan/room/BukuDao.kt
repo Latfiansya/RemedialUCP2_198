@@ -23,11 +23,11 @@ interface BukuDao {
     @Query("SELECT * FROM buku WHERE kategoriId = :kategoriId AND isDeleted = 0")
     suspend fun getBukuByKategori(kategoriId: Int): List<Buku>
     
-    // For checking borrowed status efficiently
+
     @Query("SELECT COUNT(*) FROM buku WHERE kategoriId = :kategoriId AND status = 'dipinjam' AND isDeleted = 0")
     suspend fun countBorrowedBooksByCategory(kategoriId: Int): Int
 
-    // Soft delete all books in a category
+
     @Query("UPDATE buku SET isDeleted = 1 WHERE kategoriId = :kategoriId")
     suspend fun softDeleteBukuByKategori(kategoriId: Int)
 }

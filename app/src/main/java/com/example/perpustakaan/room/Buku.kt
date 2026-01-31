@@ -21,7 +21,7 @@ data class Buku(
     @PrimaryKey(autoGenerate = true)
     val idBuku: Int = 0,
     val judul: String,
-    val status: String, // "tersedia" or "dipinjam"
+    val status: String,
     val kategoriId: Int,
     val isDeleted: Boolean = false
 )

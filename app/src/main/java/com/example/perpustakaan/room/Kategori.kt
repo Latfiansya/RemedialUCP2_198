@@ -8,6 +8,6 @@ data class Kategori(
     @PrimaryKey(autoGenerate = true)
     val idKategori: Int = 0,
     val namaKategori: String,
-    val parentId: Int? = null, // Nullable for root categories
+    val parentId: Int? = null,
     val isDeleted: Boolean = false
 )

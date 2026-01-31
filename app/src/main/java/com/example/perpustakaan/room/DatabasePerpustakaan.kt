@@ -1,6 +1,7 @@
 package com.example.perpustakaan.room
 
 import android.content.Context
+import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -16,11 +17,20 @@ abstract class DatabasePerpustakaan : RoomDatabase() {
         private var Instance: DatabasePerpustakaan? = null
 
         fun getDatabase(context: Context): DatabasePerpustakaan {
+            Log.d("DatabasePerpustakaan", "getDatabase called")
             return Instance ?: synchronized(this) {
-                Room.databaseBuilder(context, DatabasePerpustakaan::class.java, "perpustakaan_database")
+                Log.d("DatabasePerpustakaan", "Creating new database instance")
+                Room.databaseBuilder(
+                    context.applicationContext,
+                    DatabasePerpustakaan::class.java,
+                    "perpustakaan_database"
+                )
                     .fallbackToDestructiveMigration()
                     .build()
-                    .also { Instance = it }
+                    .also { 
+                        Instance = it 
+                        Log.d("DatabasePerpustakaan", "Database instance created successfully")
+                    }
             }
         }
     }

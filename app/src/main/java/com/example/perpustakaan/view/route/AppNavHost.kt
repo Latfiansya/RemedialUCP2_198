@@ -3,21 +3,21 @@ package com.example.perpustakaan.view.route
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.NavType
 import androidx.navigation.navArgument
-import com.example.perpustakaan.view.HalamanHome
-import com.example.perpustakaan.view.HalamanEntryBuku
-import com.example.perpustakaan.view.HalamanKategori
 import com.example.perpustakaan.view.HalamanDetailBuku
+import com.example.perpustakaan.view.HalamanEntryBuku
+import com.example.perpustakaan.view.HalamanHome
+import com.example.perpustakaan.view.HalamanKategori
 
-enum class PerpustakaanScreen {
-    Home,
-    EntryBuku,
-    Kategori,
-    DetailBuku
+object Routes {
+    const val HOME = "home"
+    const val ENTRY_BUKU = "entry_buku"
+    const val KATEGORI = "kategori"
+    const val DETAIL_BUKU = "detail_buku"
 }
 
 @Composable
@@ -27,28 +27,28 @@ fun AppNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = PerpustakaanScreen.Home.name,
+        startDestination = Routes.HOME,
         modifier = modifier
     ) {
-        composable(PerpustakaanScreen.Home.name) {
+        composable(Routes.HOME) {
             HalamanHome(
-                navigateToEntry = { navController.navigate(PerpustakaanScreen.EntryBuku.name) },
-                navigateToKategori = { navController.navigate(PerpustakaanScreen.Kategori.name) },
-                onBukuClick = { id -> navController.navigate("${PerpustakaanScreen.DetailBuku.name}/$id") }
+                navigateToEntry = { navController.navigate(Routes.ENTRY_BUKU) },
+                navigateToKategori = { navController.navigate(Routes.KATEGORI) },
+                onBukuClick = { id -> navController.navigate("${Routes.DETAIL_BUKU}/$id") }
             )
         }
-        composable(PerpustakaanScreen.EntryBuku.name) {
+        composable(Routes.ENTRY_BUKU) {
             HalamanEntryBuku(
                 navigateBack = { navController.popBackStack() }
             )
         }
-        composable(PerpustakaanScreen.Kategori.name) {
+        composable(Routes.KATEGORI) {
             HalamanKategori(
                 navigateBack = { navController.popBackStack() }
             )
         }
         composable(
-            route = "${PerpustakaanScreen.DetailBuku.name}/{bukuId}",
+            route = "${Routes.DETAIL_BUKU}/{bukuId}",
             arguments = listOf(navArgument("bukuId") { type = NavType.IntType })
         ) { backStackEntry ->
             val bukuId = backStackEntry.arguments?.getInt("bukuId") ?: 0

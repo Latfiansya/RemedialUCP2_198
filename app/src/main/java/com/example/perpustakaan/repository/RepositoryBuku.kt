@@ -33,7 +33,7 @@ class RepositoryBuku(
     }
 
     suspend fun insertKategori(kategori: Kategori) {
-        // Cyclic Check (Simple)
+
         if (kategori.parentId != null) {
             var currentParentId = kategori.parentId
             while (currentParentId != null) {
@@ -57,16 +57,15 @@ class RepositoryBuku(
         }
     }
 
-    // REMEDIAL LOGIC: Delete Kategori
+
     suspend fun deleteKategori(idKategori: Int) {
         db.withTransaction {
-            // 1. Check for borrowed books in this category (and subcategories recursively ideally, but simple first)
-            // Ideally we need recursion here.
+
             val allCats = kategoriDao.getAllKategoriList()
             val categoriesToCheck = mutableListOf<Int>()
             categoriesToCheck.add(idKategori)
             
-            // Collect all descendants
+
             var index = 0
             while(index < categoriesToCheck.size) {
                 val currentId = categoriesToCheck[index]
@@ -84,12 +83,9 @@ class RepositoryBuku(
             }
 
             if (hasBorrowedBook) {
-                // INTENTIONAL: If borrowed -> Rollback (here we throw exception to rollback generic transaction)
-                // But the prompt says "Automatic Rollback via Logic"
                 throw IllegalStateException("Cannot delete: Contains borrowed books! Rollback triggered.")
             } else {
-                // INTENTIONAL FLAW: Directly soft delete everything without "No Category" option
-                for (catId in categoriesToCheck) {
+                 for (catId in categoriesToCheck) {
                     val k = kategoriDao.getKategoriById(catId)
                     kategoriDao.softDeleteKategori(catId)
                     bukuDao.softDeleteBukuByKategori(catId)
